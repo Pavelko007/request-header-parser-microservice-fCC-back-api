@@ -38,7 +38,11 @@ app.get("/api/whoami", function (req, res) {
     mostCommonLanguage = languages[0].split(",")[0];
   } else mostCommonLanguage = "en-US";
 
-  res.json({ ipaddress: ip, language: mostCommonLanguage });
+  res.json({
+    ipaddress: ip,
+    language: mostCommonLanguage,
+    software: req.headers["user-agent"],
+  });
 });
 
 // listen for requests :)
