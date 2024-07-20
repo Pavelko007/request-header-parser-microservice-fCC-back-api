@@ -21,6 +21,7 @@ app.get("/", function (req, res) {
 
 // your first API endpoint...
 app.get("/api/whoami", function (req, res) {
+  //get ip address
   var os = require("os");
   var ip = "0.0.0.0";
   var ips = os.networkInterfaces();
@@ -29,7 +30,15 @@ app.get("/api/whoami", function (req, res) {
       if (_dev.family === "IPv4" && !_dev.internal) ip = _dev.address;
     });
   });
-  res.json({ ipaddress: ip });
+  //get a language
+  var languages = req.headers["accept-language"];
+  var mostCommonLanguage;
+  if (languages) {
+    var languages = languages.split(":");
+    mostCommonLanguage = languages[0].split(",")[0];
+  } else mostCommonLanguage = "en-US";
+
+  res.json({ ipaddress: ip, language: mostCommonLanguage });
 });
 
 // listen for requests :)
